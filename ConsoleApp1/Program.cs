@@ -4,30 +4,50 @@ using System.IO;
 
 namespace ConsoleApp1
 {
-    class Program
+    class NewtonRoot
     {
-        static void GenerateDecimal(string s)
+        private double startNumber;
+        const double EPS = Double.Epsilon;
+        private int n;
+        private double result;
+
+        public NewtonRoot(double startNumber, int n)
         {
-            string[] numbers =  s.Split(new[] {','},StringSplitOptions.RemoveEmptyEntries);
-            decimal x = Convert.ToDecimal(numbers[0].Trim(' '));
-            decimal y = Convert.ToDecimal(numbers[1].Trim(' '));
-            Console.WriteLine("X:{0}, Y:{1}",x,y); 
+            this.startNumber = startNumber;
+            this.n = n;
+            this.result = CalculateRoot();
         }
 
-        static int ShowStartMenu()
+        public double StartNumber => startNumber;
+
+        public double Result => result;
+
+        private double CalculateRoot()
         {
-            int number;
+            double x = 1;
             while (true)
             {
-                Console.WriteLine("1 - enter data by console");
-                Console.WriteLine("2 - enter data by file");
-                Console.WriteLine("3 - exit");
+                double nx = (x + this.n / x) / 2;
+                if (Math.Abs(x - nx) < EPS) break;
+                x = nx;
+            }
+            return x;
+        }
+    }
+    class Program
+    {
+        static int ShowStartMenu()
+        {
+            double number;
+            while (true)
+            {
+                Console.WriteLine("Enter a number:");
                 try
                 {
-                    number = Int32.Parse(Console.ReadLine());
-                    if (number > 3 || number < 1)
+                    number = Double.Parse(Console.ReadLine());
+                    if (number < 0)
                     {
-                        Console.WriteLine("Wrong input");
+                        Console.WriteLine("Number has to be pozitive");
                     }
                     else
                     {
@@ -42,55 +62,6 @@ namespace ConsoleApp1
             return number;
         }
 
-        static void GetListFromConsole()
-        {
-            ArrayList list = new ArrayList();
-            while (true)
-            {
-                string str = Console.ReadLine();
-                if (str=="") break;
-                list.Add(str);
-            }
-            
-            Console.WriteLine("Координаты Х и У:");
-            try
-            {
-                foreach (string v in list)
-                {
-                    GenerateDecimal(v);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-        
-        static void GetListFromFile()
-        {
-            ArrayList list = new ArrayList();
-            StreamReader sr=new StreamReader("/home/owlet/numbers.txt");
-            string line;
-            while (!sr.EndOfStream)
-            {
-                line=sr.ReadLine();
-                list.Add(line);
-            }
-            sr.Close();
-            Console.WriteLine("Координаты Х и У:");
-            try
-            {
-                foreach (string v in list)
-                {
-                    GenerateDecimal(v);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-        
         static void Main(string[] args)
         {
             int action = ShowStartMenu();
