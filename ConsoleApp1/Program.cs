@@ -21,7 +21,7 @@ namespace ConsoleApp1
             this.n = n;
             calculatedResult = CalculateRoot();
             mathPowResult = Math.Pow(startNumber,(double) 1/n);
-            dimension = calculatedResult - mathPowResult;
+            dimension = mathPowResult - calculatedResult;
         }
 
         public double StartNumber => startNumber;
@@ -36,41 +36,48 @@ namespace ConsoleApp1
 
         private double CalculateRoot()
         {
-            double x = startNumber;
-            while (true)
+            double x0 = startNumber / n;
+            double xk = 1;
+            int count = 0;
+            double A = startNumber;
+            while (Math.Abs(x0 - xk)>EPS)
             {
-                double nx = (x + n / x) / 2;
-                if (Math.Abs(x - nx) < EPS) break;
-                x = nx;
+                if (count>0) x0 = xk;
+                xk = (n - 1) * x0 / n + A / (n * Math.Pow(x0, n - 1)); 
+                //Console.WriteLine($"xk = {xk}");
+                count++;
             }
-            return x;
+            return xk;
         }
     }
 
     class ConvertToBinary
     {
         private int startNumber;
-        private string result;
+        private string calcResult;
+        private string functionResult;
+
+        public string FunctionResult => functionResult;
 
         public ConvertToBinary(int startNumber)
         {
             this.startNumber = startNumber;
-            result = Convert();
+            calcResult = ConvertBinary();
+            functionResult = Convert.ToString(startNumber, 2);
         }
 
         public int StartNumber => startNumber;
 
-        public string Result => result;
+        public string CalcResult => calcResult;
 
-        private string Convert()
+        private string ConvertBinary()
         {
             string str = "";
             StringBuilder builder = new StringBuilder(str);
             int x = startNumber;
-            int temp;
             while (x > 0)
             {
-                temp = x % 2;
+                int temp = x % 2;
                 x/=2;
                 builder.Append(temp);
             }
@@ -161,7 +168,8 @@ namespace ConsoleApp1
         static void Task2()
         {
             ConvertToBinary binary = GetInstance();
-            Console.WriteLine($"Число {binary.StartNumber} имеет двоичное представление {binary.Result}");
+            Console.WriteLine($"Вычисленное двоичное представление числа {binary.StartNumber} по написанному алгоритму: {binary.CalcResult}");
+            Console.WriteLine($"Вычисленное двоичное представление числа {binary.StartNumber} по встроенной функции: {binary.FunctionResult}");
         }
         
         static int ShowStartMenu()
