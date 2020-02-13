@@ -5,7 +5,7 @@ namespace ConsoleApp1
     public class NewtonRoot
     {
         private double startNumber;
-        const double EPS = Double.Epsilon;
+        const double EPS = 0.0000000001;
         private int n;
         private double calculatedResult;
         private double mathPowResult;
