@@ -16,7 +16,7 @@ namespace ConsoleApp1
             Random random = new Random();
             for (int i = 0; i < n; i++)
             {
-                numbers[i] = random.Next((i+1)*100+1,  100*(i+2));
+                numbers[i] = random.Next((i+1)*1000+1,  1000*(i+2));
             }
 
             NODEvklid evklid = new NODEvklid(numbers[0], numbers[1]);
