@@ -1,110 +1,104 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
+    
+    
     class Program
     {
-        static NODEvklid GetInstanceTwo()
+        private static bool IsEqual(string str)
         {
-            int n = 2;
-            int[] numbers = new int[n];
-            Random random = new Random();
-            for (int i = 0; i < n; i++)
-            {
-                numbers[i] = random.Next((i+1)*1000+1,  1000*(i+2));
-            }
-
-            NODEvklid evklid = new NODEvklid(numbers[0], numbers[1]);
-            return evklid;
-
-        }
-        static NODEvklid GetInstanceThreeOrMore()
-        {
-            int n;
             while (true)
             {
-                Console.WriteLine("Введите количество чисел");
+                Console.WriteLine(str + " Введите Y/N:");
                 try
                 {
-                    n = Int32.Parse(Console.ReadLine());
-                    if (n < 3 || n > 5)
+                    var a = Console.ReadLine();
+                    switch (a.ToLower())
                     {
-                        Console.WriteLine("Мы считаем НОД у чисел от трех до пяти");
-                    }
-                    else
-                    {
-                        break;
+                        case "n":
+                            return false;
+                        case "y":
+                            return true;
+                        default: throw new Exception();
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Ошибка ввода");
+                    Console.WriteLine("Вы должны ввести N или Y");
                 }
             }
-            int[] numbers = new int[n];
-            Random random = new Random();
-            for (int i = 0; i < n; i++)
-            {
-                numbers[i] = random.Next((i+1)*100+1,  100*(i+2));
-            }
-
-            NODEvklid evklid = null;
-            switch (n)
-            { 
-              case 3:  evklid = new NODEvklid(numbers[0], numbers[1], numbers[2]);
-                  break;
-              case 4:  evklid = new NODEvklid(numbers[0], numbers[1], numbers[2], numbers[3]);
-                  break;
-              case 5:  evklid = new NODEvklid(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4]);
-                  break;
-              default:
-                  Console.WriteLine("Ошибка!");
-                  break;
-            }
-            
-            return evklid;
         }
         
-        
+        private static int GetNumber(int? sum)
+        {
+            int a;
+           
+            while (true)
+            {
+                Console.WriteLine("Введите сторону a:");
+                try
+                {
+                    a = Int32.Parse(Console.ReadLine());
+                    if (a <= 0)
+                    {
+                        Console.WriteLine("Число должно быть положительным");
+                    }
+                    else if (sum!=null && a >=sum)
+                    {
+                        Console.WriteLine("Сумма двух сторон должна быть меньше третьей");
+                    }
+                        
+                    else break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Вы должны ввести число, а не строку");
+                }
+            }
+
+            return a;
+        }
+        static Triangle GetObject()
+        {
+            int a, b, c;
+            bool isEqual = IsEqual("Треугольник равноcторонний?");
+            if (isEqual)
+            {
+                a = GetNumber(null);
+                Triangle triangle = new Triangle(a);
+                return triangle;
+            }
+            
+            bool isSquare = IsEqual("Треугольник равнобедренный?");
+
+            if (isSquare)
+            { 
+                a = GetNumber(null);
+                c = GetNumber(a + a);
+                Triangle triangle1 = new Triangle(a,c);
+                return triangle1;
+            }
+            
+            a = GetNumber(null);
+            b = GetNumber(null);
+            c = GetNumber(a + b);
+            
+            Triangle triangle2 = new Triangle(a,b,c);
+            return triangle2;
+        }
 
         static void Task1()
         {
-            NODEvklid nodEvklid = GetInstanceTwo();
-            nodEvklid.setDivisor(nodEvklid.NODBinaryTime());
-            Console.WriteLine($"Наибольший общий делитель чисел {nodEvklid.A} и {nodEvklid.B} : {nodEvklid.Divisor}");
-        }
-        
-        static void Task2()
-        {
-            NODEvklid nodEvklid = GetInstanceTwo();
-            nodEvklid.setDivisor(nodEvklid.NODEvklidTime());
-            Console.WriteLine($"Наибольший общий делитель чисел {nodEvklid.A} и {nodEvklid.B} : {nodEvklid.Divisor}");
-
-        }
-
-        static void Task3()
-        {
-            NODEvklid nodEvklid = GetInstanceThreeOrMore();
-            switch (nodEvklid.N)
-            {
-               case 3: 
-                   Console.WriteLine($"Наибольший общий делитель чисел {nodEvklid.A}, {nodEvklid.B} и {nodEvklid.C} : {nodEvklid.Divisor}");
-                    break;
-               case 4:
-                   Console.WriteLine($"Наибольший общий делитель чисел {nodEvklid.A}, {nodEvklid.B}, {nodEvklid.C} и {nodEvklid.D} : {nodEvklid.Divisor}");
-                   break;
-               case 5:
-                   Console.WriteLine($"Наибольший общий делитель чисел {nodEvklid.A}, {nodEvklid.B}, {nodEvklid.C}, {nodEvklid.D} и {nodEvklid.E} : {nodEvklid.Divisor}");
-                   break;
-               default:
-                   Console.WriteLine("oooooooops! smth went wrong!");
-                   break;
-            }
+            Triangle triangle = GetObject();
+            Console.WriteLine($"Задан треугольник со сторонами {triangle.A}, {triangle.B}, {triangle.C}");
+            Console.WriteLine($"Площадь треугольника: {triangle.Square}");
+            Console.WriteLine($"Периметр треугольника: {triangle.Perimetr}");
         }
 
         static int ShowStartMenu()
@@ -112,15 +106,12 @@ namespace ConsoleApp1
             int number;
             while (true)
             {
-                Console.WriteLine("");
-                Console.WriteLine("1 - Задание 1, вычисление НОД методом Евклида");
-                Console.WriteLine("2 - Задание 2, вычисление НОД методом Стейна");
-                Console.WriteLine("3 - Задание 3, вычисление НОД методом у 3 - 5 чисел");
-                Console.WriteLine("4 - Выход");
+                Console.WriteLine("1 - Задание 1, работа с треугольником");
+                Console.WriteLine("2 - Выход");
                 try
                 {
                     number = Int32.Parse(Console.ReadLine());
-                    if (number > 4 || number < 1)
+                    if (number > 2 || number < 1)
                     {
                         Console.WriteLine("Число не предусмотрено");
                     }
@@ -134,10 +125,9 @@ namespace ConsoleApp1
                     Console.WriteLine("Ошибка ввода");
                 }
             }
-            Console.WriteLine("");
             return number;
         }
-        
+
         static void Main(string[] args)
         {
             while (true)
@@ -147,19 +137,13 @@ namespace ConsoleApp1
                 {
                     case 1: Task1();
                         break;
-                    case 2:
-                        Task2();
-                        break;
-                    case 3:
-                        Task3();
-                        break;
-                    case 4: Console.WriteLine("Сеанс окончен");
+                    case 2: Console.WriteLine("Сеанс окончен");
                         return;
-                    default:
+                    default: 
                         break;
-                } 
+                }    
             }
-           
+            
         }
     }
 }
