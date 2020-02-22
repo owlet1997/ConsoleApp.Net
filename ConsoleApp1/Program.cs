@@ -11,94 +11,48 @@ namespace ConsoleApp1
     
     class Program
     {
-        private static bool IsEqual(string str)
-        {
-            while (true)
-            {
-                Console.WriteLine(str + " Введите Y/N:");
-                try
-                {
-                    var a = Console.ReadLine();
-                    switch (a.ToLower())
-                    {
-                        case "n":
-                            return false;
-                        case "y":
-                            return true;
-                        default: throw new Exception();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Вы должны ввести N или Y");
-                }
-            }
-        }
         
-        private static int GetNumber(int? sum)
+        static Vector GetObject(string str)
         {
-            int a;
-           
-            while (true)
-            {
-                Console.WriteLine("Введите сторону a:");
-                try
-                {
-                    a = Int32.Parse(Console.ReadLine());
-                    if (a <= 0)
-                    {
-                        Console.WriteLine("Число должно быть положительным");
-                    }
-                    else if (sum!=null && a >=sum)
-                    {
-                        Console.WriteLine("Сумма двух сторон должна быть меньше третьей");
-                    }
-                        
-                    else break;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Вы должны ввести число, а не строку");
-                }
-            }
-
-            return a;
-        }
-        static Triangle GetObject()
-        {
-            int a, b, c;
-            bool isEqual = IsEqual("Треугольник равноcторонний?");
-            if (isEqual)
-            {
-                a = GetNumber(null);
-                Triangle triangle = new Triangle(a);
-                return triangle;
-            }
+            Console.WriteLine("Ввод координат "+ str + " вектора");
+            int x = Util.GetNumber("Введите координату x:");
+            int y = Util.GetNumber("Введите координату y:");
+            int z = Util.GetNumber("Введите координату z:");
             
-            bool isSquare = IsEqual("Треугольник равнобедренный?");
-
-            if (isSquare)
-            { 
-                a = GetNumber(null);
-                c = GetNumber(a + a);
-                Triangle triangle1 = new Triangle(a,c);
-                return triangle1;
-            }
-            
-            a = GetNumber(null);
-            b = GetNumber(null);
-            c = GetNumber(a + b);
-            
-            Triangle triangle2 = new Triangle(a,b,c);
-            return triangle2;
+            Vector vector = new Vector(x,y,z);
+            return vector;
         }
 
         static void Task1()
         {
-            Triangle triangle = GetObject();
-            Console.WriteLine($"Задан треугольник со сторонами {triangle.A}, {triangle.B}, {triangle.C}");
-            Console.WriteLine($"Площадь треугольника: {triangle.Square}");
-            Console.WriteLine($"Периметр треугольника: {triangle.Perimetr}");
+            Vector vector1 = GetObject("1");
+            Vector vector2 = GetObject("2");
+            Console.WriteLine(vector1);
+            Console.WriteLine(vector2);
+            
+            while (true)
+            {
+                int chosen = Util.ShowInnerMenu();
+                switch (chosen)
+                {
+                    case 1: Console.WriteLine(vector1.Summary(vector2));
+                        break;
+                    case 2: Console.WriteLine(vector1.Substraction(vector2));
+                        break;
+                    case 3: Console.WriteLine(vector1.ScalarMultiply(vector2));
+                        break;
+                    case 4: Console.WriteLine(vector1.VectorMultiply(vector2));
+                        break;
+                    case 5:
+                        int n = Util.GetNumber("Введите число, на которое нужно умножить вектор");
+                        Console.WriteLine(vector1.MultiplyByNumber(n));
+                        break;
+                    case 6: return;
+                    default: 
+                        break;
+                }    
+            }
+            
         }
 
         static int ShowStartMenu()
@@ -106,7 +60,7 @@ namespace ConsoleApp1
             int number;
             while (true)
             {
-                Console.WriteLine("1 - Задание 1, работа с треугольником");
+                Console.WriteLine("1 - Задание 1, работа с вектором");
                 Console.WriteLine("2 - Выход");
                 try
                 {

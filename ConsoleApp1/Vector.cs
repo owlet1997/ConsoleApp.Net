@@ -8,13 +8,13 @@ namespace ConsoleApp1
         private int x;
         private int y;
         private int z;
-
         private double length;
 
         public Vector(int x, int y, int z)
         {
             this.x = x;
             this.y = y;
+            this.z = z;
             length = Math.Round(Math.Sqrt(x*x + y*y + z*z));
         }
 
@@ -50,8 +50,15 @@ namespace ConsoleApp1
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder("Vector: {");
-            builder.Append(t)
-            return new string("Vector: {x},{y},{z}");
+            builder.Append(x);
+            builder.Append(", ");
+            builder.Append(y);
+            builder.Append(", ");
+            builder.Append(z);
+            builder.Append("}\n");
+            builder.Append("Length = ");
+            builder.Append(length);
+            return builder.ToString();
         }
     }
 }
