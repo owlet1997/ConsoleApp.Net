@@ -10,12 +10,14 @@ namespace ConsoleApp1
         private int z;
         private double length;
 
+        public double Length => length;
+
         public Vector(int x, int y, int z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
-            length = Math.Round(Math.Sqrt(x*x + y*y + z*z));
+            length = Math.Round(Math.Sqrt(x*x + y*y + z*z),2);
         }
 
         public Vector Summary(Vector vector)
@@ -33,13 +35,19 @@ namespace ConsoleApp1
             return new Vector(x*number, y*number, z*number);
         }
 
-        public double ScalarMultiply(Vector vector)
+        public double ScalarGeometryMultiply(Vector vector)
         {
             int mult = x * vector.x + y * vector.y + z * vector.z;
             double cos =  (x * vector.x + y * vector.y + z * vector.z) /
                          (Math.Sqrt(x * x + y * y + z * z) * Math.Sqrt(vector.x * vector.x + vector.y * vector.y +
                                                                        vector.z * vector.z));
-            return mult * cos;
+            return Math.Round((mult * cos),2);
+        }
+        
+        public int ScalarMultiply(Vector vector)
+        {
+            int mult = x * vector.x + y * vector.y + z * vector.z;
+            return mult;
         }
 
         public Vector VectorMultiply(Vector vector)
@@ -62,4 +70,3 @@ namespace ConsoleApp1
         }
     }
 }
-//academytlt.ru - новая платформа

@@ -11,14 +11,15 @@ namespace ConsoleApp1
             {
                 Console.WriteLine("1 - Сложение векторов");
                 Console.WriteLine("2 - Вычитание векторов");
-                Console.WriteLine("3 - Скалярное произведение векторов");
-                Console.WriteLine("4 - Векторное произведение векторов");
-                Console.WriteLine("5 - Умножение вектора на число");
-                Console.WriteLine("6 - Выход");
+                Console.WriteLine("3 - Скалярное произведение векторов (геометрическая интерпретация)");
+                Console.WriteLine("4 - Скалярное произведение векторов (алгебраическая интерпретация)");
+                Console.WriteLine("5 - Векторное произведение векторов");
+                Console.WriteLine("6 - Умножение вектора на число");
+                Console.WriteLine("7 - Выход");
                 try
                 {
                     number = Int32.Parse(Console.ReadLine());
-                    if (number > 6 || number < 1)
+                    if (number > 7 || number < 1)
                     {
                         Console.WriteLine("Число не предусмотрено");
                     }
