@@ -51,6 +51,13 @@ namespace ConsoleApp1
             }
         }
 
+        public void Task2()
+        {
+            Polynom polynom1 = new Polynom();
+            Polynom polynom2 = new Polynom();
+            
+        }
+
         static int ShowStartMenu()
         {
             int number;
