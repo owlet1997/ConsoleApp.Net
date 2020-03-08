@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ConsoleApp1;
 using NUnit.Framework;
 
@@ -70,19 +71,64 @@ namespace TestProject1
             Assert.Pass();
         }
         
+        /// <summary>
+        /// //////////////////////////////////
+        /// 
+        /// </summary>
         [Test]
-        public void TestVectorMultiplyByVector()
+        public void TestCreatePolynom()
         {
-            Vector vector = new Vector(5, 6, 9);
-            Vector vector1 = new Vector(2, 10, 9);
-            Vector result = vector.VectorMultiply(vector1);
-            Vector expectedResult = new Vector(-36,-27,38);
+            Polynom polynom1 = new Polynom(3,6);
+            Polynom polynom2 = new Polynom(6,6);
             
-            Assert.AreEqual(expectedResult.Length,result.Length);
+            Assert.AreEqual(polynom1.P.Count,polynom2.P.Count);
             Assert.Pass();
         }
         
+        [Test]
+        public void TestSummaryPolynom()
+        {
+            Polynom polynom1 = new Polynom(3,6);
+            Polynom polynom2 = new Polynom(6,6);
+
+            Polynom polynom = polynom1.Summary(polynom2, "+");
+            Assert.AreEqual("10x^1 + 20x^2 + 30x^3 + 20x^4 + 25x^5 + 30x^6",polynom.ToString());
+            Assert.Pass();
+        }
         
+        [Test]
+        public void TestSubstractionPolynom()
+        {
+            Polynom polynom1 = new Polynom(3,6);
+            Polynom polynom2 = new Polynom(6,6);
+
+            Polynom polynom = polynom1.Summary(polynom2, "-");
+
+            Assert.AreEqual("-20x^4 + -25x^5 + -30x^6",polynom.ToString());
+            Assert.Pass();
+        }
         
+        [Test]
+        public void TestMultiplyByPolynom()
+        {
+            Polynom polynom1 = new Polynom(3,6);
+            Polynom polynom2 = new Polynom(6,6);
+
+            Polynom polynom = polynom1.MultiplyByPolynom(polynom2);
+
+            Assert.AreEqual("25x^2 + 100x^3 + 250x^4 + 400x^5 + 550x^6 + 700x^7 + 675x^8 + 450x^9",polynom.ToString());
+            Assert.Pass();
+        }
+        
+        [Test]
+        public void TestMultiplyBySingle()
+        {
+            Polynom polynom1 = new Polynom(3,6);
+
+            Polynom polynom = polynom1.MultiplyBySingle(4,6);
+
+            Assert.AreEqual("30x^5 + 60x^6 + 90x^7",polynom.ToString());
+            Assert.Pass();
+        }
     }
 }

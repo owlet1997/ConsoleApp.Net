@@ -7,18 +7,18 @@ namespace ConsoleApp1
 {
     public class Polynom
     {
-        private SortedDictionary<int, int> polynom;
+        private SortedList<int, int> polynom;
 
-        public SortedDictionary<int, int> P => polynom;
+        public SortedList<int, int> P => polynom;
 
         public Polynom()
         {
-            polynom = new SortedDictionary<int, int>();
+            polynom = new SortedList<int, int>();
         }
 
-        public void setPolynom(SortedDictionary<int, int> map)
+        public Polynom(int n,int maxGrade)
         {
-            polynom = map;
+            this.polynom = GeneratePolynom(n, maxGrade);
         }
 
         public void addNom(int grade, int value)
@@ -29,40 +29,20 @@ namespace ConsoleApp1
         public Polynom Summary(Polynom polynomial, string sign)
         {
             Polynom result = new Polynom();
-            
-            SortedDictionary<int,int> maxPolynom = new SortedDictionary<int, int>();
-            SortedDictionary<int,int> minPolynom = new SortedDictionary<int, int>();
-            
-            if (this.P.Count >= polynomial.P.Count)
-            {
-                maxPolynom = this.P.Reverse() as SortedDictionary<int, int>;
-                minPolynom = polynomial.P.Reverse() as SortedDictionary<int, int>;
-            }
-            else
-            {
-                maxPolynom = polynomial.P.Reverse() as SortedDictionary<int, int>;
-                minPolynom = this.P.Reverse() as SortedDictionary<int, int>;
-            }
 
-            foreach (var a in maxPolynom)
+            foreach (var a in this.P)
             {
-                if (minPolynom.ContainsKey(a.Key))
-                {
-                    switch (sign)
+                switch (sign)
                     {
                         case "+": 
-                            result.addNom(a.Key, a.Value+minPolynom.GetValueOrDefault(a.Key));
+                            result.addNom(a.Key, a.Value+polynomial.P.GetValueOrDefault(a.Key));
                             break;
                         case "-":
-                            result.addNom(a.Key, a.Value-minPolynom.GetValueOrDefault(a.Key));
+                            result.addNom(a.Key, a.Value-polynomial.P.GetValueOrDefault(a.Key));
                             break;
                     }
-                }
-                else
-                {
-                    result.addNom(a.Key,a.Value);
-                }
             }
+            
             return result;
         }
 
@@ -84,7 +64,16 @@ namespace ConsoleApp1
             {
                 foreach (var b in polynomial.P)
                 {
-                    result.addNom(a.Key+b.Key,a.Value*b.Value);
+                    if (result.P.ContainsKey(a.Key + b.Key))
+                    {
+                        var temp = result.P.GetValueOrDefault(a.Key + b.Key);
+                        result.P.Remove(a.Key + b.Key);
+                        result.addNom(a.Key+b.Key,a.Value*b.Value + temp);
+                    }
+                    else
+                    {
+                        result.addNom(a.Key+b.Key,a.Value*b.Value);
+                    }
                 }
             }
 
@@ -93,22 +82,42 @@ namespace ConsoleApp1
         
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            var count = 0;
-            foreach (var a in P)
-            {
-                if (a.Key != 0)
-                {
+           StringBuilder builder = new StringBuilder();
+           var count = 0;
+           foreach (var a in P)
+           { 
+               if (a.Value!= 0)
+               {
                     builder.Append(a.Value);
                     builder.Append("x^");
                     builder.Append(a.Key);
                     count++;
                     if (count!=P.Count)
-                    builder.Append(" + ");
-                }
-            }
+                       builder.Append(" + ");
+               }
+           }
 
-            return builder.ToString();
+           if (builder.Length <= 0) return "Пустой многочлен";
+           
+           builder.Remove(builder.Length - 3, 3);
+           return builder.ToString();
+
+        }
+        
+        public SortedList<int, int> GeneratePolynom(int size, int maxGrade)
+        {
+            SortedList<int,int> list = new SortedList<int, int>();
+            for (int i = 0; i < size; i++)
+            {
+                list.Add(i+1, (i+1)*5);
+            }
+            
+            for (int i = 0; i <= maxGrade; i++)
+            {
+                if (!list.ContainsKey(i))
+                    list.Add(i,0);
+            }
+            return list;
         }
     }
 }
