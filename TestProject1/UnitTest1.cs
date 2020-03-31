@@ -8,126 +8,129 @@ namespace TestProject1
     public class Tests
     {
         [Test]
-        public void TestCreateVector()
+        public void createFalse1Matrix()
         {
-            Vector vector = new Vector(1, 7, -7);
+            try
+            {
+                Matrix matrix = new Matrix(0, 7);
+            }
+            catch (MyException e)
+            {
+                Assert.Pass();
+            }
+        }
+        
+        [Test]
+        public void createFalse2Matrix()
+        {
+            try
+            {
+                Matrix matrix = new Matrix(-1, 7);
+            }
+            catch (MyException e)
+            {
+                Assert.Pass();
+            }
+        }
+        
+        [Test]
+        public void createFalse3Matrix()
+        {
+            try
+            {
+                Matrix matrix = new Matrix(7, -7);
+            }
+            catch (MyException e)
+            {
+                Assert.Pass();
+            }
+        }
+        
+        [Test]
+        public void createMatrix()
+        {
+            Matrix matrix = new Matrix(2, 7);
+            Assert.Pass();
+        }
+        
+        [Test]
+        public void substractionFalseMatrix()
+        {
+            Matrix matrix1 = Program.getInstanceFromRandom(2, 7);
+            Matrix matrix2 = Program.getInstanceFromRandom(3, 7);
             
-            Assert.AreEqual(9.95,vector.Length);
-            Assert.Pass();
-
-        }
-        
-        [Test]
-        public void TestVectorsSummary()
-        {
-            Vector vector = new Vector(1, 10, 9);
-            Vector vector1 = new Vector(6, 5, 6);
-            Vector result = vector.Summary(vector1);
+            try
+            {
+                Matrix matrix = matrix1.Substraction(matrix2);
+            }
             
-            Assert.AreEqual(22.34,result.Length);
-            Assert.Pass();
+            catch (MyException e)
+            {
+                Assert.Pass();
+            }
         }
         
         [Test]
-        public void TestVectorsSubstraction()
+        public void summaryFalseMatrix()
         {
-            Vector vector = new Vector(5, 6, 9);
-            Vector vector1 = new Vector(2, 10, 9);
-            Vector result = vector.Substraction(vector1);
+            Matrix matrix1 = Program.getInstanceFromRandom(2, 7);
+            Matrix matrix2 = Program.getInstanceFromRandom(3, 7);
             
-            Assert.AreEqual(5,result.Length);
-            Assert.Pass();
-        }
-        
-        [Test]
-        public void TestVectorMultiplyByNumber()
-        {
-            Vector vector = new Vector(5, 6, 9);
-            Vector result = vector.MultiplyByNumber(5);
+            try
+            {
+                Matrix matrix = matrix1.Multiply(matrix2);
+            }
             
-            Assert.AreEqual(59.58,result.Length);
-            Assert.Pass();
+            catch (MyException e)
+            {
+                Assert.Pass();
+            }
         }
         
         [Test]
-        public void TestVectorsScalarGeometryMultiply()
+        public void multiplyFalseMatrix()
         {
-            Vector vector = new Vector(5, 6, 9);
-            Vector vector1 = new Vector(2, 10, 9);
-            var result = vector.ScalarGeometryMultiply(vector1);
+            Matrix matrix1 = Program.getInstanceFromRandom(2, 7);
+            Matrix matrix2 = Program.getInstanceFromRandom(4, 5);
             
-            Assert.AreEqual(140.68,result);
-            Assert.Pass();
-        }
-        
-        [Test]
-        public void TestVectorsScalarMultiply()
-        {
-            Vector vector = new Vector(5, 6, 9);
-            Vector vector1 = new Vector(2, 10, 9);
-            var result = vector.ScalarMultiply(vector1);
+            try
+            {
+                Matrix matrix = matrix1.Multiply(matrix2);
+            }
             
-            Assert.AreEqual(151,result);
-            Assert.Pass();
-        }
-        
-        /// <summary>
-        /// //////////////////////////////////
-        /// 
-        /// </summary>
-        [Test]
-        public void TestCreatePolynom()
-        {
-            Polynom polynom1 = new Polynom(3,6);
-            Polynom polynom2 = new Polynom(6,6);
-            
-            Assert.AreEqual(polynom1.P.Count,polynom2.P.Count);
-            Assert.Pass();
+            catch (MyException e)
+            {
+                Assert.Pass();
+            }
         }
         
         [Test]
-        public void TestSummaryPolynom()
+        public void SummaryMatrix()
         {
-            Polynom polynom1 = new Polynom(3,6);
-            Polynom polynom2 = new Polynom(6,6);
+            Matrix matrix1 = Program.getInstanceFromRandom(4, 5);
+            Matrix matrix2 = Program.getInstanceFromRandom(4, 5);
 
-            Polynom polynom = polynom1.Summary(polynom2, "+");
-            Assert.AreEqual("10x^1 + 20x^2 + 30x^3 + 20x^4 + 25x^5 + 30x^6",polynom.ToString());
+            Matrix matrix = matrix1.Summary(matrix2);
             Assert.Pass();
         }
         
         [Test]
-        public void TestSubstractionPolynom()
+        public void SubstractionMatrix()
         {
-            Polynom polynom1 = new Polynom(3,6);
-            Polynom polynom2 = new Polynom(6,6);
+            Matrix matrix1 = Program.getInstanceFromRandom(4, 5);
+            Matrix matrix2 = Program.getInstanceFromRandom(4, 5);
 
-            Polynom polynom = polynom1.Summary(polynom2, "-");
-
-            Assert.AreEqual("-20x^4 + -25x^5 + -30x^6",polynom.ToString());
+            Matrix matrix = matrix1.Substraction(matrix2);
             Assert.Pass();
         }
-        
+
         [Test]
-        public void TestMultiplyByPolynom()
+        public void MultiplyMatrix()
         {
-            Polynom polynom1 = new Polynom(3,6);
-            Polynom polynom2 = new Polynom(6,6);
+            Matrix matrix1 = Program.getInstanceFromRandom(4, 5);
+            Matrix matrix2 = Program.getInstanceFromRandom(5, 6);
 
-            Polynom polynom = polynom1.MultiplyByPolynom(polynom2);
-
-            Assert.AreEqual("25x^2 + 100x^3 + 250x^4 + 400x^5 + 550x^6 + 700x^7 + 675x^8 + 450x^9",polynom.ToString());
-            Assert.Pass();
-        }
-        
-        [Test]
-        public void TestMultiplyBySingle()
-        {
-            Polynom polynom1 = new Polynom(3,6);
-
-            Polynom polynom = polynom1.MultiplyBySingle(4,6);
-
-            Assert.AreEqual("30x^5 + 60x^6 + 90x^7",polynom.ToString());
+            Matrix matrix = matrix1.Multiply(matrix2);
             Assert.Pass();
         }
     }

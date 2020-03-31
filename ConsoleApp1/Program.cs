@@ -1,57 +1,97 @@
-﻿using System;
-using System.Collections;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+using System;
+using System.Reflection.Metadata;
 
 namespace ConsoleApp1
 {
-    class Program
+    public class Program
     {
-        static int ShowStartMenu()
+        static Matrix getInstanceFromConsole(int rows, int cols)
         {
-            int number;
-            while (true)
+            Matrix matrix = new Matrix(rows,cols);
+
+            for (int i = 0; i < rows; i++)
             {
-                Console.WriteLine("1 - Задание 1, работа с вектором");
-                Console.WriteLine("2 - Задание 2, работа с многочленом");
-                Console.WriteLine("3 - Выход");
-                try
+                for (int j = 0; j < cols; j++)
                 {
-                    number = Int32.Parse(Console.ReadLine());
-                    if (number > 3 || number < 1)
-                    {
-                        Console.WriteLine("Число не предусмотрено");
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Ошибка ввода");
+                    matrix[i, j] = Util.GetNumber();
                 }
             }
-            return number;
+
+            return matrix;
+        }
+        
+        public static Matrix getInstanceFromRandom(int rows, int cols)
+        {
+            Matrix matrix = new Matrix(rows,cols);
+            Random random = new Random();
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    matrix[i, j] = random.Next(0,50);
+                }
+            }
+
+            return matrix;
         }
 
-        static void Main(string[] args)
+        static Matrix getMatrix(string number)
         {
+            Console.WriteLine("Введите размеры {0} матрицы",number);
+            int rows1 = Util.GetNumber();
+            int cols1 = Util.GetNumber();
+            
+            Matrix matrix;
+            
             while (true)
             {
-                int chosen = ShowStartMenu();
+                int chosen = Util.ShowStartMenu();
                 switch (chosen)
                 {
-                    case 1: Task1.task1();
-                        break;
-                    case 2: Task2.task2();
-                        break;
-                    case 3: Console.WriteLine("Сеанс окончен");
-                        return;
+                    case 1: 
+                        matrix = getInstanceFromConsole(rows1,cols1);
+                        return matrix;
+                    case 2: 
+                        matrix = getInstanceFromRandom(rows1,cols1);
+                        return matrix;
+                    case 3: 
+                        matrix = Matrix.GetEmpty(rows1,cols1);
+                        return matrix;
+                    case 4: Console.WriteLine("Сеанс окончен");
+                        return null;
                 }    
             }
+        }
+
+        static void Task()
+        {
+            Matrix matrix1 = getMatrix("1");
+            Matrix matrix2 = getMatrix("2");
+            
+            Console.WriteLine("Первая матрица");
+            Console.WriteLine(matrix1);
+            Console.WriteLine("Вторая матрица");
+            Console.WriteLine(matrix2);
+            
+            while (true)
+            {
+                int chosen = Util.ShowInnerMenu();
+                switch (chosen)
+                {
+                    case 1: Console.WriteLine(matrix1.Summary(matrix2));
+                        break;
+                    case 2: Console.WriteLine(matrix1.Substraction(matrix2));
+                        break;
+                    case 3: Console.WriteLine(matrix1.Multiply(matrix2));
+                        break;
+                    case 4: return;
+                }    
+            }
+        }
+
+        public static void Main(string[] args)
+        {
+            Task();
         }
     }
 }

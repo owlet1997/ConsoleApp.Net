@@ -4,74 +4,12 @@ namespace ConsoleApp1
 {
     public class Util
     {
-        public static int ShowVectorInnerMenu()
-        {
-            int number;
-            while (true)
-            {
-                Console.WriteLine("1 - Сложение векторов");
-                Console.WriteLine("2 - Вычитание векторов");
-                Console.WriteLine("3 - Скалярное произведение векторов (геометрическая интерпретация)");
-                Console.WriteLine("4 - Скалярное произведение векторов (алгебраическая интерпретация)");
-                Console.WriteLine("5 - Векторное произведение векторов");
-                Console.WriteLine("6 - Умножение вектора на число");
-                Console.WriteLine("7 - Выход");
-                try
-                {
-                    number = Int32.Parse(Console.ReadLine());
-                    if (number > 7 || number < 1)
-                    {
-                        Console.WriteLine("Число не предусмотрено");
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Ошибка ввода");
-                }
-            }
-            return number;
-        }
-        
-        public static int ShowPolynomInnerMenu()
-        {
-            int number;
-            while (true)
-            {
-                Console.WriteLine("1 - Сложение многочленов");
-                Console.WriteLine("2 - Вычитание многочленов");
-                Console.WriteLine("3 - Умножение многочлена на одночлен");
-                Console.WriteLine("4 - Умножение многочлена на многочлен");
-                Console.WriteLine("5 - Выход");
-                try
-                {
-                    number = Int32.Parse(Console.ReadLine());
-                    if (number > 5 || number < 1)
-                    {
-                        Console.WriteLine("Число не предусмотрено");
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Ошибка ввода");
-                }
-            }
-            return number;
-        }
-        public static int GetNumber(string s)
+        public static int GetNumber()
         {
             int a;
            
             while (true)
             {
-                Console.WriteLine(s);
                 try
                 {
                     a = Int32.Parse(Console.ReadLine());
@@ -85,24 +23,21 @@ namespace ConsoleApp1
             return a;
         }
         
-        public static int GetNumberForPolynom(string s, int maxGrade)
+        public static int ShowStartMenu()
         {
-            int a;
-           
+            int number;
             while (true)
             {
-                Console.WriteLine(s);
+                Console.WriteLine("1 - Ввести данные матрицы из консоли");
+                Console.WriteLine("2 - Сгенерировать матрицу рандомно");
+                Console.WriteLine("3 - Получить пустую матрицу данного размера");
+                Console.WriteLine("4 - Выход");
                 try
                 {
-                    a = Int32.Parse(Console.ReadLine());
-                    if (a > maxGrade)
+                    number = Int32.Parse(Console.ReadLine());
+                    if (number > 4 || number < 1)
                     {
-                        Console.WriteLine("Слишком большое число!");
-                    }
-                    else if (a < 0)
-                    {
-                        Console.WriteLine("Мы работаем с положительными числами!");
-
+                        Console.WriteLine("Число не предусмотрено");
                     }
                     else
                     {
@@ -111,10 +46,39 @@ namespace ConsoleApp1
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Вы должны ввести число, а не строку");
+                    Console.WriteLine("Ошибка ввода");
                 }
             }
-            return a;
+            return number;
+        }
+        
+        public static int ShowInnerMenu()
+        {
+            int number;
+            while (true)
+            {
+                Console.WriteLine("1 - Сложение матриц");
+                Console.WriteLine("2 - Вычитание матриц");
+                Console.WriteLine("3 - Умножение матриц");
+                Console.WriteLine("4 - Выход");
+                try
+                {
+                    number = Int32.Parse(Console.ReadLine());
+                    if (number > 4 || number < 1)
+                    {
+                        Console.WriteLine("Число не предусмотрено");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Ошибка ввода");
+                }
+            }
+            return number;
         }
     }
 }
